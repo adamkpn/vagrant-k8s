@@ -1,0 +1,25 @@
+Configure Hosts file on each host and restart the "kubelet" service
+m1	192.168.99.201
+w1	192.168.99.211
+w2	192.168.99.212
+
+kubectl get pods -n kube-system -l name=weave-net -o wide
+!!!! GOOD RESULT
+
+NAME              READY     STATUS    RESTARTS   AGE       IP               NODE
+weave-net-6rx6g   2/2       Running   0          31s       192.168.99.201   m1
+weave-net-mg7xb   2/2       Running   0          31s       192.168.99.212   w2
+weave-net-njbp4   2/2       Running   0          31s       192.168.99.211   w1
+
+!!!! BAD RESULT
+NAME              READY     STATUS    RESTARTS   AGE       IP          NODE
+weave-net-8zgzg   2/2       Running   0          31s       10.0.2.15   w2
+weave-net-lz9l7   2/2       Running   0          31s       10.0.2.15   w1
+weave-net-mlkkw   2/2       Running   0          31s       10.0.2.15   m1
+
+In case of BAD RESULT, delete the network and try again
+DELETE WEAVE NETWORK
+kubectl delete DaemonSet/weave-net -n kube-system
+
+Result:
+daemonset "weave-net" deleted

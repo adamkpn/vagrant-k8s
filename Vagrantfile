@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
     # First Manager##
     (1..1).each do |number|
         config.vm.define "m#{number}" do |node|
-            node.vm.network "private_network", ip: "192.168.99.20#{number}"
+            node.vm.network "private_network", ip: "172.16.0.20#{number}"
             node.vm.hostname = "m#{number}"
 			# Open firewall rules required for Master
 			node.vm.provision "shell", path: "provision/master/open_firewall_rules.sh", privileged: true
@@ -43,14 +43,14 @@ Vagrant.configure("2") do |config|
     # Workers
     (1..2).each do |number|
         config.vm.define "w#{number}" do |node|
-            node.vm.network "private_network", ip: "192.168.99.21#{number}"
+            node.vm.network "private_network", ip: "172.16.0.21#{number}"
             node.vm.hostname = "w#{number}"
 			# Override hosts file in /etc/hosts
 			node.vm.provision "shell", inline: "cp /vagrant/files/hosts /etc/hosts", privileged: true
 			# Open firewall rules required for Node
 			node.vm.provision "shell", path: "provision/node/open_firewall_rules.sh", privileged: true
 			# Join Node to Cluster:
-			node.vm.provision "shell", inline: "kubeadm join --token=9201e0.9c84a8ad258cf7ab --discovery-token-unsafe-skip-ca-verification 192.168.99.201:6443", privileged: true
+			node.vm.provision "shell", inline: "kubeadm join --token=9201e0.9c84a8ad258cf7ab --ignore-preflight-errors=All --discovery-token-unsafe-skip-ca-verification 172.16.0.201:6443", privileged: true
         end  
     end
 end

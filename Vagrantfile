@@ -1,12 +1,13 @@
 Vagrant.configure("2") do |config|
 
 	# Define Box as Centos 7 (latest version)
-    config.vm.box = "centos/7"
+	config.vm.box = "centos/7"
+	config.disksize.size = '40GB'
 	
 	# Define VM resources
 	config.vm.provider "virtualbox" do |v|
-        v.memory = 2048
-        v.cpus = 1
+        v.memory = 3096
+		v.cpus = 1
     end
 	
     # Remove Swap File

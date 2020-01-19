@@ -13,7 +13,7 @@ EOF
 setenforce 0
 
 # install 3 k's
-yum install -y kubelet kubeadm kubectl
+yum install -y kubelet-1.13.11 kubeadm-1.13.11 kubectl-1.13.11
 
 # configure sysctl
 cat <<EOF >  /etc/sysctl.d/k8s.conf

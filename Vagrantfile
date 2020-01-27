@@ -33,7 +33,10 @@ Vagrant.configure("2") do |config|
 			# Expose 8080 for connection to Cluster from Kubectl
 			node.vm.provision "shell", path: "provision/master/create_kubeconfig.sh", privileged: false
 			# Install CNI
-			node.vm.provision "shell", path: "provision/master/calico_cni.sh", privileged: false
+			# CALICO
+			# node.vm.provision "shell", path: "provision/master/calico_cni.sh", privileged: false
+			# FLANNEL
+			node.vm.provision "shell", path: "provision/master/flannel_cni.sh", privileged: false
 			# Add kubectl alias
 			node.vm.provision "shell", inline: "echo alias k='kubectl' >> ~/.bashrc", privileged: false
 			# Install zsh

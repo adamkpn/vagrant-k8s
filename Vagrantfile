@@ -36,13 +36,17 @@ Vagrant.configure("2") do |config|
 			# CALICO
 			# node.vm.provision "shell", path: "provision/master/calico_cni.sh", privileged: false
 			# FLANNEL
-			node.vm.provision "shell", path: "provision/master/flannel_cni.sh", privileged: false
+			# node.vm.provision "shell", path: "provision/master/flannel_cni.sh", privileged: false
+			# CANAL
+			node.vm.provision "shell", path: "provision/master/canal_cni.sh", privileged: false
 			# Add kubectl alias
 			node.vm.provision "shell", inline: "echo alias k='kubectl' >> ~/.bashrc", privileged: false
 			# Install zsh
 			node.vm.provision "shell", path: "provision/master/install_zsh.sh", privileged: false
 			# Install helm 2.16
-			node.vm.provision "shell", inline: "curl -o /tmp/helm.tar.gz  https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz &&  tar -zxf /tmp/helm.tar.gz && cp /tmp/linux-amd64/helm /usr/local/bin/helm", privileged: true
+			node.vm.provision "shell", path: "provision/master/install_helm.sh", privileged: true
+			# Deploy tiller
+			node.vm.provision "shell", path: "provision/master/deploy_tiller.sh", privileged: false
         end  
     end
 

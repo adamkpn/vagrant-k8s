@@ -38,6 +38,10 @@ Vagrant.configure("2") do |config|
 			node.vm.provision "shell", inline: "echo alias k='kubectl' >> ~/.bashrc", privileged: false
 			# Install zsh
 			node.vm.provision "shell", path: "provision/master/install_zsh.sh", privileged: false
+			# Install helm 2.16
+            node.vm.provision "shell", path: "provision/master/install_helm.sh", privileged: true
+            # Deploy tiller
+            node.vm.provision "shell", path: "provision/master/deploy_tiller.sh", privileged: false
         end  
     end
 
